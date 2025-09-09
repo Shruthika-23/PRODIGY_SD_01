@@ -1,35 +1,99 @@
-import java.util.Scanner;
-
-public class TemperatureConverter {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
-        System.out.print("Enter temperature value: ");
-        double temp = sc.nextDouble();
-
-        System.out.print("Enter unit (C/F/K): ");
-        char unit = sc.next().toUpperCase().charAt(0);
-
-        switch (unit) {
-            case 'C':
-                System.out.println("Celsius: " + temp);
-                System.out.println("Fahrenheit: " + ((temp * 9/5) + 32));
-                System.out.println("Kelvin: " + (temp + 273.15));
-                break;
-            case 'F':
-                System.out.println("Celsius: " + ((temp - 32) * 5/9));
-                System.out.println("Fahrenheit: " + temp);
-                System.out.println("Kelvin: " + ((temp - 32) * 5/9 + 273.15));
-                break;
-            case 'K':
-                System.out.println("Celsius: " + (temp - 273.15));
-                System.out.println("Fahrenheit: " + ((temp - 273.15) * 9/5 + 32));
-                System.out.println("Kelvin: " + temp);
-                break;
-            default:
-                System.out.println("Invalid unit entered!");
-        }
-
-        sc.close();
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Temperature Converter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #fce1e4, #e8f0fe, #e0f7fa);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
     }
-}
+    .container {
+      background: #ffffffcc;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 350px;
+    }
+    h2 {
+      color: #444;
+      margin-bottom: 15px;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    button {
+      background: linear-gradient(90deg, #a8edea, #fed6e3);
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      opacity: 0.9;
+    }
+    .result {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #f8f9fa;
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2> Temperature Converter </h2>
+    <input type="number" id="temp" placeholder="Enter temperature" />
+    <select id="unit">
+      <option value="C">Celsius (°C)</option>
+      <option value="F">Fahrenheit (°F)</option>
+      <option value="K">Kelvin (K)</option>
+    </select>
+    <button onclick="convert()">Convert</button>
+    <div id="output" class="result"></div>
+  </div>
+  <script>
+    function convert() {
+      let temp = parseFloat(document.getElementById("temp").value);
+      let unit = document.getElementById("unit").value;
+      let output = document.getElementById("output");
+      if (isNaN(temp)) {
+        output.innerHTML = "⚠ Please enter a valid number";
+        return;
+      }
+      let c, f, k;
+      if (unit === "C") {
+        c = temp;
+        f = (c * 9/5) + 32;
+        k = c + 273.15;
+      } else if (unit === "F") {
+        f = temp;
+        c = (f - 32) * 5/9;
+        k = c + 273.15;
+      } else if (unit === "K") {
+        k = temp;
+        c = k - 273.15;
+        f = (c * 9/5) + 32;
+      }
+      output.innerHTML = `
+        🌡 Celsius: ${c.toFixed(2)} °C <br>
+        🌡 Fahrenheit: ${f.toFixed(2)} °F <br>
+        🌡 Kelvin: ${k.toFixed(2)} K
+      `;
+    }
+  </script>
+</body>
+</html>
